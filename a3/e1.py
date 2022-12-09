@@ -1,13 +1,35 @@
 from a1.e2 import Grafo2
-import math
+from copy import deepcopy
 
 class Grafo1(Grafo2):
-    def busca_edmonds_karp(self, s, t):
+    def __obter_arcos(self, vertices):
+        arcos = []
+        for i in range(len(vertices)-1):
+            u = vertices[i]
+            v = vertices[i+1]
+            arco = self.ha_arco(u, v)
+            arcos.append(arco)
+        return arcos
+
+    def menor_capacidade(self, arcos):
+        m = 1e10
+        for a in arcos:
+            m = min(a[2], m)
+        return m
+    
+    def atualizar_capacidade(self, arcos):
+        m = self.menor_capacidade(arcos)
+        for a in arcos:
+            i = self.arcos.index(a)
+            self.arcos[i][2] -= m
+        return m
+
+    def edmonds_karp(self, s, t):
         c, a = {}, {}
         for v in self.vertices.keys():
             c[v] = False
             a[v] = None
-        
+
         c[s] = True
 
         q = []
@@ -30,11 +52,23 @@ class Grafo1(Grafo2):
                         return p
                     q.append(v)
 
-    def edmonds_karp(self, s, t):
-        f = [(arco[0], arco[1], 0) for arco in self.arcos]
+    def fluxo_maximo(self, s, t):
+        _arcos = deepcopy(self.arcos)
+        
+        f_max = 0
+        p = True
 
-        pass
+        while p:
+            p = self.edmonds_karp(s, t)
+            if p:
+                c = self.__obter_arcos(p)
+                f = self.atualizar_capacidade(c)
+                f_max += f
+        
+        self.arcos = _arcos
+        print(f"Fluxo máximo: {f_max}")
+        return f_max
 
 if __name__ == "__main__":
     g = Grafo1('entrada_a3.txt')
-    print(g.busca_edmonds_karp('1','4'))
+    g.fluxo_maximo('1','6')

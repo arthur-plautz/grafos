@@ -31,10 +31,12 @@ class Grafo:
                 
                 l = linha.split(' ')
                 if t == 'arestas':
+                    l[2] = int(l[2])
                     arestas.append(l)
                     l_ = [l[1], l[0], l[2]]
                     arestas.append(l_)
                 elif t == 'arcos':
+                    l[2] = int(l[2])
                     arcos.append(l)
                 elif t == 'vertices':
                     rotulo = l[1]

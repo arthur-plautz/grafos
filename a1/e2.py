@@ -63,11 +63,10 @@ class Grafo2(Grafo):
         conexoes = self.arestas if self.arestas else self.arcos
 
         for x in conexoes:
-            if v in x:
-                if v == x[0] and x[1]:
-                    vizinhos.append(x[1])
-                else:
-                    vizinhos.append(x[0])
+            if v == x[0]:
+                vizinhos.append(x[1])
+            elif self.arestas and v == x[1]:
+                vizinhos.append(x[0])
         return vizinhos
 
 if __name__ == '__main__':
