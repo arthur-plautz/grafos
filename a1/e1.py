@@ -2,11 +2,13 @@ import math
 import string
 
 class Grafo:
-    def __init__(self, arquivo):
-        self.vertices = None
-        self.arestas = None
-        self.arcos = None
-        self.ler(arquivo)
+    def __init__(self, arquivo=None, vertices:dict=None, arestas:list=None, arcos:list=None):
+        self.vertices = vertices 
+        self.arestas = arestas 
+        self.arcos = arcos 
+        self.arquivo = arquivo
+        if arquivo:
+            self.ler(arquivo)
 
     def ler(self, arquivo):
         vertices = {}
